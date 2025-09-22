@@ -1,10 +1,9 @@
-Shader "Unlit/Blur"
+Shader "Unlit/CircularBoxBlur"
 {
     Properties
     {
-        _MainTex("Texture", 2D) = "white" {}
-        blurStrength("BlurStrength", Range(0,1)) = 0.1
-    
+        _MainTex ("Texture", 2D) = "white" {}
+        blurStrength("BlurStrength", Range(0,100)) = 0
     }
     SubShader
     {
@@ -35,9 +34,9 @@ Shader "Unlit/Blur"
             };
 
             sampler2D _MainTex;
-            float4 _MainTex_ST;
             float4 _MainTex_TexelSize;
-            float blurStrength;
+            float4 _MainTex_ST;
+            int blurStrength;
 
             v2f vert (appdata v)
             {
@@ -51,17 +50,21 @@ Shader "Unlit/Blur"
             fixed4 frag (v2f i) : SV_Target
             {
                 // sample the texture
-                //fixed4 col = tex2D(_MainTex, i.uv);
-                fixed4 col ;
-                for (int x = 0; x < 4; x++)
+                fixed4 col = fixed4(0,0,0,0);
+
+
+                for (int x = -blurStrength; x <= blurStrength; x++)
                 {
-                    for (int y = 0; y < 4; y++)
+                    for (int y = -blurStrength; y <= blurStrength; y++)
                     {
-                        //col += tex2D(_MainTex, i.uv + _MainTex_TexelSize.xy * int2(x - 4, y - 4) * blurStrength);
-                        col += tex2D(_MainTex, i.uv + float2(blurStrength, blurStrength)/(4*10) * int2(x - 2, y - 2) );
+                        if (x*x+y*y<= blurStrength* blurStrength)
+                        {
+                            col += tex2D(_MainTex, i.uv + _MainTex_TexelSize.xy * fixed2(x, y));
+                        }
                     }
                 }
-                col /= 4*4;
+                return col / max(1,(pow(blurStrength,2)*3.14));
+
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
