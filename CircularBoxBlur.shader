@@ -1,4 +1,4 @@
-Shader "Unlit/CircularBoxBlur"
+Shader "Ahzkwid/Blur/CircularBoxBlur"
 {
     Properties
     {
