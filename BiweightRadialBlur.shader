@@ -1,4 +1,4 @@
-﻿Shader "Unlit/BiweightRadialBlur"
+﻿Shader "Ahzkwid/Blur/BiweightRadialBlur"
 {
     Properties
     {
