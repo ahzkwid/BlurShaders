@@ -1,4 +1,4 @@
-﻿Shader "Unlit/LodBlur"
+﻿Shader "Ahzkwid/Blur/LodBlur"
 {
     Properties
     {
