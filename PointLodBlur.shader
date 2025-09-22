@@ -1,4 +1,4 @@
-﻿Shader "Ahzkwid/PointLodBlur"
+﻿Shader "Ahzkwid/Blur/PointLodBlur"
 {
     Properties
     {
